@@ -378,7 +378,7 @@ define('dummy/templates/application', ['exports'], function (exports) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("h2");
         dom.setAttribute(el1,"id","title");
-        var el2 = dom.createTextNode("Welcome to Ember");
+        var el2 = dom.createTextNode("Ember SVG Charts");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -415,12 +415,12 @@ define('dummy/templates/index', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 3,
-              "column": 4
+              "line": 30,
+              "column": 8
             },
             "end": {
-              "line": 7,
-              "column": 4
+              "line": 34,
+              "column": 8
             }
           },
           "moduleName": "dummy/templates/index.hbs"
@@ -430,14 +430,14 @@ define('dummy/templates/index', ['exports'], function (exports) {
         hasRendered: false,
         buildFragment: function buildFragment(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("        ");
+          var el1 = dom.createTextNode("            ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("option");
-          var el2 = dom.createTextNode("\n            ");
+          var el2 = dom.createTextNode("\n                ");
           dom.appendChild(el1, el2);
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        ");
+          var el2 = dom.createTextNode("\n            ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -452,8 +452,8 @@ define('dummy/templates/index', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["attribute","value",["concat",[["get","type",["loc",[null,[4,25],[4,29]]]]]]],
-          ["content","type",["loc",[null,[5,12],[5,20]]]]
+          ["attribute","value",["concat",[["get","type",["loc",[null,[31,29],[31,33]]]]]]],
+          ["content","type",["loc",[null,[32,16],[32,24]]]]
         ],
         locals: ["type"],
         templates: []
@@ -469,7 +469,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 16,
+            "line": 44,
             "column": 0
           }
         },
@@ -480,41 +480,80 @@ define('dummy/templates/index', ['exports'], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createTextNode("Chart Type:\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("select");
-        dom.setAttribute(el1,"id","chartPicker");
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"style","float: left; width: 400px;");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h5");
+        var el3 = dom.createTextNode("Template");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("pre");
+        var el3 = dom.createTextNode("{{svg-chart\n    series=data\n    type=chartType\n}}");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h5");
+        var el3 = dom.createTextNode("Controller");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("pre");
+        var el3 = dom.createTextNode("chartType: 'column',\n\ndata: [\n    {\n        title: 'set one',\n        data: [.30, .60, .40, .70, .10]\n    },\n    {\n        title: 'set 2',\n        data: [.20, .50, .20, .50, .20]\n    },\n    {\n        title: 'third set',\n        data: [.30, .40, .30, .40, .10]\n    }\n]");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"style","margin-left: 410px;");
+        var el2 = dom.createTextNode("\n    Chart Type:\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("select");
+        dom.setAttribute(el2,"id","chartPicker");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("br");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createElement("br");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [1]);
+        var element1 = dom.childAt(fragment, [2]);
+        var element2 = dom.childAt(element1, [1]);
         var morphs = new Array(3);
-        morphs[0] = dom.createElementMorph(element1);
-        morphs[1] = dom.createMorphAt(element1,1,1);
-        morphs[2] = dom.createMorphAt(fragment,6,6,contextualElement);
+        morphs[0] = dom.createElementMorph(element2);
+        morphs[1] = dom.createMorphAt(element2,1,1);
+        morphs[2] = dom.createMorphAt(element1,6,6);
         return morphs;
       },
       statements: [
-        ["element","action",["change"],["on","change"],["loc",[null,[2,25],[2,56]]]],
-        ["block","each",[["get","chartTypes",["loc",[null,[3,12],[3,22]]]]],["key","@index"],0,null,["loc",[null,[3,4],[7,13]]]],
-        ["inline","svg-chart",[],["series",["subexpr","@mut",[["get","data",["loc",[null,[13,11],[13,15]]]]],[],[]],"type",["subexpr","@mut",[["get","chartType",["loc",[null,[14,9],[14,18]]]]],[],[]]],["loc",[null,[12,0],[15,2]]]]
+        ["element","action",["change"],["on","change"],["loc",[null,[29,29],[29,60]]]],
+        ["block","each",[["get","chartTypes",["loc",[null,[30,16],[30,26]]]]],["key","@index"],0,null,["loc",[null,[30,8],[34,17]]]],
+        ["inline","svg-chart",[],["series",["subexpr","@mut",[["get","data",["loc",[null,[40,15],[40,19]]]]],[],[]],"type",["subexpr","@mut",[["get","chartType",["loc",[null,[41,13],[41,22]]]]],[],[]]],["loc",[null,[39,4],[42,6]]]]
       ],
       locals: [],
       templates: [child0]
@@ -2100,7 +2139,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-svg-charts","version":"0.0.0+001d4c15"});
+  require("dummy/app")["default"].create({"name":"ember-svg-charts","version":"0.0.0+8f3b0c08"});
 }
 
 /* jshint ignore:end */
