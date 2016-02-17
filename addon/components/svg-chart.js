@@ -28,7 +28,7 @@ export default Ember.Component.extend({
     actions: {
 
         resize() {
-            console.log( 'resized' );
+            //console.log( 'resized' );
             this.set( 'height', this.$().height() );
             this.set( 'width', this.$().width() );
         }
