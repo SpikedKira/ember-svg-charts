@@ -18,18 +18,44 @@ div.chart svg text {
     stroke: transparent;
 }
 
-div.chart svg .dataPoint > *:first-child {
+div.chart svg .dataPoint g * {
+    opacity: .75;
+    stroke-width: 0;
+}
+
+div.chart svg .dataPoint .hoverArea {
+    fill: transparent;
+}
+div.chart svg .dataPoint .hoverArea:hover {
+    fill: #F2F2F2;
+    opacity: .5;
+}
+div.chart svg .dataPoint .hoverArea:hover + g * {
+    stroke-width: 3px;
+}
+div.chart svg .dataPoint .hoverArea:hover + g rect {
+    opacity: 1;
+    stroke-width: 0;
+}
+
+div.chart svg .dataPoint g *:first-child {
     fill: blue;
+    stroke: blue;
 }
-div.chart svg .dataPoint > * + * {
+div.chart svg .dataPoint g * + * {
     fill: red;
+    stroke: red;
 }
-div.chart svg .dataPoint > *:nth-child( 3 ) {
+div.chart svg .dataPoint g *:nth-child( 3 ) {
     fill: green;
+    stroke: green;
 }
 
 div.chart svg .dataLines > * {
     fill: transparent;
+}
+div.chart svg .dataLines > *:hover {
+    stroke-width: 3px;
 }
 div.chart svg .dataLines > *:first-child {
     stroke: blue;

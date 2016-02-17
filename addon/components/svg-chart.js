@@ -80,13 +80,25 @@ export default Ember.Component.extend({
 
     yAxisPlotlines: true,
 
-    barChart: false,
-
     // -------------------------------------------------------------------------
     // Observers
 
     // -------------------------------------------------------------------------
     // Methods
+
+    isLine: Ember.computed(
+        'type',
+        function() {
+            return this.get( 'type' ) === Type.LINE;
+        }
+    ),
+
+    isColumn: Ember.computed(
+        'type',
+        function() {
+            return this.get( 'type' ) === Type.COLUMN;
+        }
+    ),
 
     axisXHeight: Ember.computed(
         function() {
@@ -208,6 +220,8 @@ export default Ember.Component.extend({
     dataPoints: Ember.computed(
         'chartDimensions',
         'series',
+        'isLine',
+        'isColumn',
         function() {
             const chartDimensions = this.get( 'chartDimensions' );
             const axisYSet = this.get( 'axisYSet' );
@@ -215,7 +229,7 @@ export default Ember.Component.extend({
             const ticksX = this.get( 'ticksX' );
 
             const widthChunk = chartDimensions.width / ticksX;
-            /*
+
             const widthBuffer = 10; // left and right dataPoint padding
             const barWidth = ( ( widthChunk - ( widthBuffer * 2 ) ) - ( 5 * ( series.length - 1 ) ) ) / series.length;
 
@@ -227,34 +241,28 @@ export default Ember.Component.extend({
                 let dataPoint = Ember.A();
                 series.forEach( ( series, seriesIndex ) => {
                     const value = series.data[ index ];
-
-                    dataPoint.push( {
-                        height: ( value / heightScale ) * chartDimensions.height,
-                        offsetX: ( index * widthChunk ) + widthBuffer + chartDimensions.x + ( seriesIndex * ( barWidth + 5 ) ),
-                        offsetY: chartDimensions.height - ( ( value / heightScale ) * chartDimensions.height ),
-                        width: barWidth
-                    });
+console.log( this.get( 'isColumn' ), this.get( 'isLine' ) );
+                    if ( this.get( 'isColumn' ) ) {
+                        dataPoint.push( {
+                            height: ( value / heightScale ) * chartDimensions.height,
+                            offsetX: ( index * widthChunk ) + widthBuffer + chartDimensions.x + ( seriesIndex * ( barWidth + 5 ) ),
+                            offsetY: chartDimensions.height - ( ( value / heightScale ) * chartDimensions.height ),
+                            width: barWidth
+                        });
+                    } else if ( this.get( 'isLine' ) ) {
+                        dataPoint.push( {
+                            x: ( index * widthChunk ) + chartDimensions.x + ( widthChunk / 2 ),
+                            y: chartDimensions.height - ( ( value / heightScale ) * chartDimensions.height )
+                        });
+                    }
                 });
-                dataPoints.push( dataPoint );
-            }
-
-            return dataPoints;*/
-
-            const heightScale = axisYSet[ axisYSet.length - 1 ];
-
-            const dataPoints = Ember.A();
-
-            for ( let index = 0; index < ticksX; index++ ) {
-                let dataPoint = Ember.A();
-                series.forEach( ( series, seriesIndex ) => {
-                    const value = series.data[ index ];
-
-                    dataPoint.push( {
-                        x: ( index * widthChunk ) + chartDimensions.x + ( widthChunk / 2 ),
-                        y: chartDimensions.height - ( ( value / heightScale ) * chartDimensions.height )
-                    });
+                dataPoints.push({
+                    data: dataPoint,
+                    x: ( index * widthChunk ) + chartDimensions.x,
+                    y: chartDimensions.y,
+                    height: chartDimensions.height,
+                    width: widthChunk
                 });
-                dataPoints.push( dataPoint );
             }
 
             return dataPoints;
@@ -271,8 +279,8 @@ export default Ember.Component.extend({
             series.forEach( ( series, seriesIndex ) => {
                 let pointString = "";
                 dataPoints.forEach( ( points ) => {
-                    points.forEach( ( point, index ) => {
-                        console.log( point );
+                    points.data.forEach( ( point, index ) => {
+                        //console.log( point );
                         if ( index === seriesIndex ) {
                             pointString += point.x + "," + point.y + " ";
                         }

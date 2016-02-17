@@ -2,6 +2,24 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 
+    actions: {
+
+        change() {
+            const index = Ember.$( '#chartPicker' )[0].selectedIndex;
+            const types = this.get( 'chartTypes' );
+
+            this.set( 'chartType', types[ index ] );
+        }
+
+    },
+
+    chartType: 'column',
+
+    chartTypes: [
+        'column',
+        'line'
+    ],
+
     data: [
         {
             title: 'set one',

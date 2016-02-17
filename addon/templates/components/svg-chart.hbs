@@ -25,28 +25,33 @@
 
     {{#each dataPoints as |dataPoint|}}
         <g class="dataPoint">
-            {{#if barChart}}
-                {{#each dataPoint as |bar|}}
-                    {{svg-chart-rect
-                        height=bar.height
-                        offsetX=bar.offsetX
-                        offsetY=bar.offsetY
-                        width=bar.width
-                    }}
-                {{/each}}
-            {{else}}
-                {{#each dataPoint as |point|}}
-                    <circle cx="{{point.x}}" cy="{{point.y}}" r="2" />
-                {{/each}}
-            {{/if}}
+            <rect class="hoverArea" x="{{dataPoint.x}}" y="{{dataPoint.y}}" height="{{dataPoint.height}}" width="{{dataPoint.width}}" />
+            <g>
+                {{#if isColumn}}
+                    {{#each dataPoint.data as |bar|}}
+                        {{svg-chart-rect
+                            height=bar.height
+                            offsetX=bar.offsetX
+                            offsetY=bar.offsetY
+                            width=bar.width
+                        }}
+                    {{/each}}
+                {{/if}}
+
+                {{#if isLine}}
+                    {{#each dataPoint.data as |point|}}
+                        <circle cx="{{point.x}}" cy="{{point.y}}" r="2" />
+                    {{/each}}
+                {{/if}}
+            </g>
         </g>
     {{/each}}
 
-    {{#unless barChart}}
+    {{#if isLine}}
         <g class="dataLines">
             {{#each dataLines as |pointString|}}
                 <polyline points="{{pointString}}" />
             {{/each}}
         </g>
-    {{/unless}}
+    {{/if}}
 </svg>

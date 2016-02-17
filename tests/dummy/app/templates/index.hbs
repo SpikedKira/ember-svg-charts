@@ -1,4 +1,15 @@
+Chart Type:
+<select id="chartPicker" {{action 'change' on='change'}}>
+    {{#each chartTypes key="@index" as |type|}}
+        <option value="{{type}}">
+            {{type}}
+        </option>
+    {{/each}}
+</select>
+
+<br /><br />
+
 {{svg-chart
     series=data
-    type="column"
+    type=chartType
 }}
