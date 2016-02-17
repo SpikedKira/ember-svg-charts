@@ -1,15 +1,43 @@
-Chart Type:
-<select id="chartPicker" {{action 'change' on='change'}}>
-    {{#each chartTypes key="@index" as |type|}}
-        <option value="{{type}}">
-            {{type}}
-        </option>
-    {{/each}}
-</select>
-
-<br /><br />
-
-{{svg-chart
+<div style='float: left; width: 400px;'>
+    <h5>Template</h5>
+<pre>\{{svg-chart
     series=data
     type=chartType
-}}
+}}</pre>
+
+    <h5>Controller</h5>
+<pre>chartType: 'column',
+
+data: [
+    {
+        title: 'set one',
+        data: [.30, .60, .40, .70, .10]
+    },
+    {
+        title: 'set 2',
+        data: [.20, .50, .20, .50, .20]
+    },
+    {
+        title: 'third set',
+        data: [.30, .40, .30, .40, .10]
+    }
+]</pre>
+</div>
+
+<div style='margin-left: 410px;'>
+    Chart Type:
+    <select id="chartPicker" {{action 'change' on='change'}}>
+        {{#each chartTypes key="@index" as |type|}}
+            <option value="{{type}}">
+                {{type}}
+            </option>
+        {{/each}}
+    </select>
+
+    <br /><br />
+
+    {{svg-chart
+        series=data
+        type=chartType
+    }}
+</div>
