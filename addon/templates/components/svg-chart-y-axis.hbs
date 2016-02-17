@@ -1,0 +1,8 @@
+<path d='m {{x2}},{{offsetY}} L {{width}} {{height}}z' shape-rendering="crispEdges" />
+{{#each ticks as |tick|}}
+    <path d='m {{x2}},{{tick.y}} L {{tick.x}} {{tick.y}}' shape-rendering="crispEdges" />
+{{/each}}
+
+{{#svg-chart-text x=titlePos.x y=titlePos.y writingMode=writingMode}}
+    test
+{{/svg-chart-text}}

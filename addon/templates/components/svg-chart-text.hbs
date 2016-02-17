@@ -1,0 +1,7 @@
+{{#if textPath}}
+    <textPath xlink:href="#{{textPath}}">
+        {{yield}}
+    </textPath>
+{{else}}
+    {{yield}}
+{{/if}}

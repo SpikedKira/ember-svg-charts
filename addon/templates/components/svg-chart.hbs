@@ -1,0 +1,48 @@
+<svg>
+    {{#if yAxisPlotlines}}
+
+    {{/if}}
+
+    {{#if xAxisPlotlines}}
+
+    {{/if}}
+
+    {{svg-chart-grid
+        xTickCount=ticksX
+        yTickCount=ticksY
+        x=chartDimensions.x
+        y=chartDimensions.y
+        height=chartDimensions.height
+        width=chartDimensions.width
+    }}
+
+    {{svg-chart-y-axis
+        height=axisY.height
+        width=axisY.width
+        offsetX=axisY.offsetX
+        offsetY=axisY.offsetY
+        tickCount=axisY.ticks
+    }}
+    {{svg-chart-x-axis
+        height=axisX.height
+        width=axisX.width
+        offsetX=axisX.offsetX
+        offsetY=axisX.offsetY
+        tickCount=axisX.ticks
+    }}
+
+    {{#each dataPoints as |dataPoint|}}
+        <g class="dataPoint">
+            {{#each dataPoint as |bar|}}
+                {{svg-chart-rect
+                    height=bar.height
+                    offsetX=bar.offsetX
+                    offsetY=bar.offsetY
+                    width=bar.width
+                }}
+            {{/each}}
+        </g>
+    {{/each}}
+</svg>
+
+{{axisYSet}}

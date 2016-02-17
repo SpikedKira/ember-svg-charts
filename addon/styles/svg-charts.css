@@ -1,0 +1,30 @@
+div.chart svg {
+    height: 100%;
+    width: 100%;
+    min-height: 100px;
+    min-width: 100px;
+    display: block;
+}
+
+div.chart svg .axis {
+    stroke: #000;
+}
+
+div.chart svg .plotlines {
+    stroke: #CCC;
+}
+
+div.chart svg text {
+    stroke: transparent;
+}
+
+div.chart svg .dataPoint rect:first-child {
+    fill: blue;
+}
+div.chart svg .dataPoint rect + rect {
+    fill: red;
+}
+div.chart svg .dataPoint rect:nth-child( 3 ) {
+    fill: green;
+}
+
