@@ -1,6 +1,11 @@
 import Ember from 'ember';
 import layout from '../templates/components/svg-chart';
 
+export const Type = Object.freeze({
+    COLUMN: 'column',
+    LINE: 'line'
+});
+
 export default Ember.Component.extend({
 
     // -------------------------------------------------------------------------
@@ -61,20 +66,9 @@ export default Ember.Component.extend({
 
     height: 150,
 
-    series: [
-        {
-            title: 'set one',
-            data: [.30, .60, .40, .70, .10]
-        },
-        {
-            title: 'set 2',
-            data: [.20, .50, .20, .50, .20]
-        },
-        {
-            title: 'third set',
-            data: [.30, .40, .30, .40, .10]
-        }
-    ],
+    series: [],
+
+    type: Type.COLUMN,
 
     width: 500,
 
@@ -85,6 +79,8 @@ export default Ember.Component.extend({
     yAxisTitle: null,
 
     yAxisPlotlines: true,
+
+    barChart: false,
 
     // -------------------------------------------------------------------------
     // Observers
@@ -219,6 +215,7 @@ export default Ember.Component.extend({
             const ticksX = this.get( 'ticksX' );
 
             const widthChunk = chartDimensions.width / ticksX;
+            /*
             const widthBuffer = 10; // left and right dataPoint padding
             const barWidth = ( ( widthChunk - ( widthBuffer * 2 ) ) - ( 5 * ( series.length - 1 ) ) ) / series.length;
 
@@ -241,7 +238,49 @@ export default Ember.Component.extend({
                 dataPoints.push( dataPoint );
             }
 
+            return dataPoints;*/
+
+            const heightScale = axisYSet[ axisYSet.length - 1 ];
+
+            const dataPoints = Ember.A();
+
+            for ( let index = 0; index < ticksX; index++ ) {
+                let dataPoint = Ember.A();
+                series.forEach( ( series, seriesIndex ) => {
+                    const value = series.data[ index ];
+
+                    dataPoint.push( {
+                        x: ( index * widthChunk ) + chartDimensions.x + ( widthChunk / 2 ),
+                        y: chartDimensions.height - ( ( value / heightScale ) * chartDimensions.height )
+                    });
+                });
+                dataPoints.push( dataPoint );
+            }
+
             return dataPoints;
+        }
+    ),
+
+    dataLines: Ember.computed(
+        'dataPoints',
+        function() {
+            const dataPoints = this.get( 'dataPoints' );
+            const series = this.get( 'series' );
+            const dataLines = Ember.A();
+
+            series.forEach( ( series, seriesIndex ) => {
+                let pointString = "";
+                dataPoints.forEach( ( points ) => {
+                    points.forEach( ( point, index ) => {
+                        console.log( point );
+                        if ( index === seriesIndex ) {
+                            pointString += point.x + "," + point.y + " ";
+                        }
+                    });
+                });
+                dataLines.push( pointString );
+            });
+            return dataLines;
         }
     ),
 

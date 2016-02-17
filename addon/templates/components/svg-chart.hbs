@@ -1,15 +1,7 @@
 <svg>
-    {{#if yAxisPlotlines}}
-
-    {{/if}}
-
-    {{#if xAxisPlotlines}}
-
-    {{/if}}
-
     {{svg-chart-grid
-        xTickCount=ticksX
-        yTickCount=ticksY
+        xTickCount=(if xAxisPlotlines ticksX)
+        yTickCount=(if yAxisPlotlines ticksY)
         x=chartDimensions.x
         y=chartDimensions.y
         height=chartDimensions.height
@@ -33,16 +25,28 @@
 
     {{#each dataPoints as |dataPoint|}}
         <g class="dataPoint">
-            {{#each dataPoint as |bar|}}
-                {{svg-chart-rect
-                    height=bar.height
-                    offsetX=bar.offsetX
-                    offsetY=bar.offsetY
-                    width=bar.width
-                }}
-            {{/each}}
+            {{#if barChart}}
+                {{#each dataPoint as |bar|}}
+                    {{svg-chart-rect
+                        height=bar.height
+                        offsetX=bar.offsetX
+                        offsetY=bar.offsetY
+                        width=bar.width
+                    }}
+                {{/each}}
+            {{else}}
+                {{#each dataPoint as |point|}}
+                    <circle cx="{{point.x}}" cy="{{point.y}}" r="2" />
+                {{/each}}
+            {{/if}}
         </g>
     {{/each}}
-</svg>
 
-{{axisYSet}}
+    {{#unless barChart}}
+        <g class="dataLines">
+            {{#each dataLines as |pointString|}}
+                <polyline points="{{pointString}}" />
+            {{/each}}
+        </g>
+    {{/unless}}
+</svg>

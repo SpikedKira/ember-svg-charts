@@ -18,13 +18,25 @@ div.chart svg text {
     stroke: transparent;
 }
 
-div.chart svg .dataPoint rect:first-child {
+div.chart svg .dataPoint > *:first-child {
     fill: blue;
 }
-div.chart svg .dataPoint rect + rect {
+div.chart svg .dataPoint > * + * {
     fill: red;
 }
-div.chart svg .dataPoint rect:nth-child( 3 ) {
+div.chart svg .dataPoint > *:nth-child( 3 ) {
     fill: green;
 }
 
+div.chart svg .dataLines > * {
+    fill: transparent;
+}
+div.chart svg .dataLines > *:first-child {
+    stroke: blue;
+}
+div.chart svg .dataLines > * + * {
+    stroke: red;
+}
+div.chart svg .dataLines > *:nth-child( 3 ) {
+    stroke: green;
+}
