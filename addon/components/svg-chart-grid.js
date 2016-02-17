@@ -45,7 +45,10 @@ export default Ember.Component.extend({
     // Methods
 
     horzLines: Ember.computed(
-        '',
+        'height',
+        'width',
+        'x',
+        'y',
         function() {
             const yTickCount = this.get( 'yTickCount' );
             const x = this.get( 'x' );
@@ -69,7 +72,10 @@ export default Ember.Component.extend({
     ),
 
     vertLines: Ember.computed(
-        '',
+        'height',
+        'width',
+        'x',
+        'y',
         function() {
             const xTickCount = this.get( 'xTickCount' );
             const x = this.get( 'x' );

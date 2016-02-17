@@ -29,8 +29,8 @@ export default Ember.Component.extend({
 
         resize() {
             console.log( 'resized' );
-            //this.set( 'height', this.$().height() );
-            //this.set( 'width', this.$().width() );
+            this.set( 'height', this.$().height() );
+            this.set( 'width', this.$().width() );
         }
 
     },
@@ -241,7 +241,7 @@ export default Ember.Component.extend({
                 let dataPoint = Ember.A();
                 series.forEach( ( series, seriesIndex ) => {
                     const value = series.data[ index ];
-console.log( this.get( 'isColumn' ), this.get( 'isLine' ) );
+
                     if ( this.get( 'isColumn' ) ) {
                         dataPoint.push( {
                             height: ( value / heightScale ) * chartDimensions.height,
