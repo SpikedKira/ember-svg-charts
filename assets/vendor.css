@@ -1,0 +1,68 @@
+div.chart svg {
+    height: 100%;
+    width: 100%;
+    min-height: 100px;
+    min-width: 100px;
+    display: block;
+}
+
+div.chart svg .axis {
+    stroke: #000;
+}
+
+div.chart svg .plotlines {
+    stroke: #CCC;
+}
+
+div.chart svg text {
+    stroke: transparent;
+}
+
+div.chart svg .dataPoint g * {
+    opacity: .75;
+    stroke-width: 0;
+}
+
+div.chart svg .dataPoint .hoverArea {
+    fill: transparent;
+}
+div.chart svg .dataPoint .hoverArea:hover {
+    fill: #F2F2F2;
+    opacity: .5;
+}
+div.chart svg .dataPoint .hoverArea:hover + g * {
+    stroke-width: 3px;
+}
+div.chart svg .dataPoint .hoverArea:hover + g rect {
+    opacity: 1;
+    stroke-width: 0;
+}
+
+div.chart svg .dataPoint g *:first-child {
+    fill: blue;
+    stroke: blue;
+}
+div.chart svg .dataPoint g * + * {
+    fill: red;
+    stroke: red;
+}
+div.chart svg .dataPoint g *:nth-child( 3 ) {
+    fill: green;
+    stroke: green;
+}
+
+div.chart svg .dataLines > * {
+    fill: transparent;
+}
+div.chart svg .dataLines > *:hover {
+    stroke-width: 3px;
+}
+div.chart svg .dataLines > *:first-child {
+    stroke: blue;
+}
+div.chart svg .dataLines > * + * {
+    stroke: red;
+}
+div.chart svg .dataLines > *:nth-child( 3 ) {
+    stroke: green;
+}
