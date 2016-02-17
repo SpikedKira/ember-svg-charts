@@ -70026,7 +70026,7 @@ define('ember-svg-charts/components/svg-chart-grid', ['exports', 'ember', 'ember
         // -------------------------------------------------------------------------
         // Methods
 
-        horzLines: Ember['default'].computed('', function () {
+        horzLines: Ember['default'].computed('height', 'width', 'x', 'y', function () {
             var yTickCount = this.get('yTickCount');
             var x = this.get('x');
             var y = this.get('y');
@@ -70047,7 +70047,7 @@ define('ember-svg-charts/components/svg-chart-grid', ['exports', 'ember', 'ember
             return lines;
         }),
 
-        vertLines: Ember['default'].computed('', function () {
+        vertLines: Ember['default'].computed('height', 'width', 'x', 'y', function () {
             var xTickCount = this.get('xTickCount');
             var x = this.get('x');
             var y = this.get('y');
@@ -70382,9 +70382,9 @@ define('ember-svg-charts/components/svg-chart', ['exports', 'ember', 'ember-svg-
         actions: {
 
             resize: function resize() {
-                console.log('resized');
-                //this.set( 'height', this.$().height() );
-                //this.set( 'width', this.$().width() );
+                //console.log( 'resized' );
+                this.set('height', this.$().height());
+                this.set('width', this.$().width());
             }
 
         },
@@ -70561,7 +70561,7 @@ define('ember-svg-charts/components/svg-chart', ['exports', 'ember', 'ember-svg-
                 var dataPoint = Ember['default'].A();
                 series.forEach(function (series, seriesIndex) {
                     var value = series.data[index];
-                    console.log(_this2.get('isColumn'), _this2.get('isLine'));
+
                     if (_this2.get('isColumn')) {
                         dataPoint.push({
                             height: value / heightScale * chartDimensions.height,

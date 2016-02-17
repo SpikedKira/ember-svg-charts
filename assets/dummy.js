@@ -204,7 +204,7 @@ define('dummy/ember-svg-charts/tests/modules/ember-svg-charts/components/svg-cha
   QUnit.module('JSHint - modules/ember-svg-charts/components');
   QUnit.test('modules/ember-svg-charts/components/svg-chart-grid.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart-grid.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart-grid.js: line 58, col 73, Missing semicolon.\nmodules/ember-svg-charts/components/svg-chart-grid.js: line 82, col 72, Missing semicolon.\n\n2 errors');
+    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart-grid.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart-grid.js: line 61, col 73, Missing semicolon.\nmodules/ember-svg-charts/components/svg-chart-grid.js: line 88, col 72, Missing semicolon.\n\n2 errors');
   });
 
 });
@@ -2100,7 +2100,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-svg-charts","version":"0.0.0+e1e424f4"});
+  require("dummy/app")["default"].create({"name":"ember-svg-charts","version":"0.0.0+001d4c15"});
 }
 
 /* jshint ignore:end */
