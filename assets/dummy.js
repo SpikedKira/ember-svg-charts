@@ -163,7 +163,9 @@ define('dummy/controllers/index', ['exports', 'ember'], function (exports, Ember
         }, {
             title: 'third set',
             data: [.30, .40, .30, .40, .10]
-        }]
+        }],
+
+        xAxisLabels: ['first', 'second', 'third', 'fourth', 'fifth']
 
     });
 
@@ -259,7 +261,7 @@ define('dummy/ember-svg-charts/tests/modules/ember-svg-charts/components/svg-cha
   QUnit.module('JSHint - modules/ember-svg-charts/components');
   QUnit.test('modules/ember-svg-charts/components/svg-chart-x-axis.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart-x-axis.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart-x-axis.js: line 58, col 89, Missing semicolon.\nmodules/ember-svg-charts/components/svg-chart-x-axis.js: line 54, col 19, \'height\' is defined but never used.\n\n2 errors');
+    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart-x-axis.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart-x-axis.js: line 88, col 89, Missing semicolon.\nmodules/ember-svg-charts/components/svg-chart-x-axis.js: line 84, col 19, \'height\' is defined but never used.\n\n2 errors');
   });
 
 });
@@ -270,7 +272,7 @@ define('dummy/ember-svg-charts/tests/modules/ember-svg-charts/components/svg-cha
   QUnit.module('JSHint - modules/ember-svg-charts/components');
   QUnit.test('modules/ember-svg-charts/components/svg-chart-y-axis.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart-y-axis.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart-y-axis.js: line 60, col 89, Missing semicolon.\n\n1 error');
+    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart-y-axis.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart-y-axis.js: line 58, col 19, \'x\' is defined but never used.\nmodules/ember-svg-charts/components/svg-chart-y-axis.js: line 90, col 89, Missing semicolon.\n\n2 errors');
   });
 
 });
@@ -281,7 +283,7 @@ define('dummy/ember-svg-charts/tests/modules/ember-svg-charts/components/svg-cha
   QUnit.module('JSHint - modules/ember-svg-charts/components');
   QUnit.test('modules/ember-svg-charts/components/svg-chart.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart.js: line 132, col 28, A leading decimal point can be confused with a dot: \'.1\'.\nmodules/ember-svg-charts/components/svg-chart.js: line 242, col 33, Don\'t make functions within a loop.\n\n2 errors');
+    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart.js: line 136, col 28, A leading decimal point can be confused with a dot: \'.1\'.\nmodules/ember-svg-charts/components/svg-chart.js: line 242, col 33, Don\'t make functions within a loop.\n\n2 errors');
   });
 
 });
@@ -415,11 +417,11 @@ define('dummy/templates/index', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 30,
+              "line": 37,
               "column": 8
             },
             "end": {
-              "line": 34,
+              "line": 41,
               "column": 8
             }
           },
@@ -452,8 +454,8 @@ define('dummy/templates/index', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["attribute","value",["concat",[["get","type",["loc",[null,[31,29],[31,33]]]]]]],
-          ["content","type",["loc",[null,[32,16],[32,24]]]]
+          ["attribute","value",["concat",[["get","type",["loc",[null,[38,29],[38,33]]]]]]],
+          ["content","type",["loc",[null,[39,16],[39,24]]]]
         ],
         locals: ["type"],
         templates: []
@@ -469,7 +471,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 44,
+            "line": 54,
             "column": 0
           }
         },
@@ -481,7 +483,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"style","float: left; width: 400px;");
+        dom.setAttribute(el1,"id","docColumn");
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h5");
@@ -491,7 +493,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("pre");
-        var el3 = dom.createTextNode("{{svg-chart\n    series=data\n    type=chartType\n}}");
+        var el3 = dom.createTextNode("{{svg-chart\n    series=data\n    type=chartType\n    xAxisLabels=xAxisLabels\n    xAxisTitle='Demo Chart'\n    yAxisTitle='Some Numbers'\n}}");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n    ");
@@ -503,7 +505,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("pre");
-        var el3 = dom.createTextNode("chartType: 'column',\n\ndata: [\n    {\n        title: 'set one',\n        data: [.30, .60, .40, .70, .10]\n    },\n    {\n        title: 'set 2',\n        data: [.20, .50, .20, .50, .20]\n    },\n    {\n        title: 'third set',\n        data: [.30, .40, .30, .40, .10]\n    }\n]");
+        var el3 = dom.createTextNode("chartType: 'column',\n\nxAxisLabels: [\n    'first', 'second', 'third', 'fourth', 'fifth'\n],\n\ndata: [\n    {\n        title: 'set one',\n        data: [.30, .60, .40, .70, .10]\n    },\n    {\n        title: 'set 2',\n        data: [.20, .50, .20, .50, .20]\n    },\n    {\n        title: 'third set',\n        data: [.30, .40, .30, .40, .10]\n    }\n]");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -512,7 +514,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"style","margin-left: 410px;");
+        dom.setAttribute(el1,"id","exampleColumn");
         var el2 = dom.createTextNode("\n    Chart Type:\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("select");
@@ -551,9 +553,9 @@ define('dummy/templates/index', ['exports'], function (exports) {
         return morphs;
       },
       statements: [
-        ["element","action",["change"],["on","change"],["loc",[null,[29,29],[29,60]]]],
-        ["block","each",[["get","chartTypes",["loc",[null,[30,16],[30,26]]]]],["key","@index"],0,null,["loc",[null,[30,8],[34,17]]]],
-        ["inline","svg-chart",[],["series",["subexpr","@mut",[["get","data",["loc",[null,[40,15],[40,19]]]]],[],[]],"type",["subexpr","@mut",[["get","chartType",["loc",[null,[41,13],[41,22]]]]],[],[]]],["loc",[null,[39,4],[42,6]]]]
+        ["element","action",["change"],["on","change"],["loc",[null,[36,29],[36,60]]]],
+        ["block","each",[["get","chartTypes",["loc",[null,[37,16],[37,26]]]]],["key","@index"],0,null,["loc",[null,[37,8],[41,17]]]],
+        ["inline","svg-chart",[],["series",["subexpr","@mut",[["get","data",["loc",[null,[47,15],[47,19]]]]],[],[]],"type",["subexpr","@mut",[["get","chartType",["loc",[null,[48,13],[48,22]]]]],[],[]],"xAxisLabels",["subexpr","@mut",[["get","xAxisLabels",["loc",[null,[49,20],[49,31]]]]],[],[]],"xAxisTitle","Demo Chart","yAxisTitle","Some Numbers"],["loc",[null,[46,4],[52,6]]]]
       ],
       locals: [],
       templates: [child0]
@@ -2139,7 +2141,7 @@ catch(err) {
 if (runningTests) {
   require("dummy/tests/test-helper");
 } else {
-  require("dummy/app")["default"].create({"name":"ember-svg-charts","version":"0.0.0+8f3b0c08"});
+  require("dummy/app")["default"].create({"name":"ember-svg-charts","version":"0.0.0+f77b9e69"});
 }
 
 /* jshint ignore:end */

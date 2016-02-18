@@ -9,6 +9,13 @@ div.chart svg {
 div.chart svg .axis {
     stroke: #000;
 }
+div.chart svg .axis .label {
+    font-size: 10px;
+    font-family: Gill Sans, Gill Sans MT, Calibri, sans-serif;
+}
+div.chart svg .axis .title {
+    font-size: 14px;
+}
 
 div.chart svg .plotlines {
     stroke: #CCC;
