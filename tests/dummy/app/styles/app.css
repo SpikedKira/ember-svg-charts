@@ -7,3 +7,12 @@ pre {
     padding: 10px;
     background-color: #CCC;
 }
+
+#docColumn {
+    float: left;
+    width: 400px;
+}
+
+#exampleColumn {
+    margin-left: 410px;
+}

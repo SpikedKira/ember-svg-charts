@@ -1,12 +1,19 @@
-<div style='float: left; width: 400px;'>
+<div id='docColumn'>
     <h5>Template</h5>
 <pre>\{{svg-chart
     series=data
     type=chartType
+    xAxisLabels=xAxisLabels
+    xAxisTitle='Demo Chart'
+    yAxisTitle='Some Numbers'
 }}</pre>
 
     <h5>Controller</h5>
 <pre>chartType: 'column',
+
+xAxisLabels: [
+    'first', 'second', 'third', 'fourth', 'fifth'
+],
 
 data: [
     {
@@ -24,7 +31,7 @@ data: [
 ]</pre>
 </div>
 
-<div style='margin-left: 410px;'>
+<div id='exampleColumn'>
     Chart Type:
     <select id="chartPicker" {{action 'change' on='change'}}>
         {{#each chartTypes key="@index" as |type|}}
@@ -39,5 +46,8 @@ data: [
     {{svg-chart
         series=data
         type=chartType
+        xAxisLabels=xAxisLabels
+        xAxisTitle='Demo Chart'
+        yAxisTitle='Some Numbers'
     }}
 </div>

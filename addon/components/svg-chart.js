@@ -41,8 +41,10 @@ export default Ember.Component.extend({
     didInsertElement() {
         this._super( ...arguments );
 
-        console.log( 'did insert element' );
-        this.send( 'resize' );
+        //console.log( 'did insert element' );
+        Ember.run.scheduleOnce( 'afterRender', () => {
+            this.send( 'resize' );
+        });
     },
 
     init() {
@@ -71,6 +73,8 @@ export default Ember.Component.extend({
     type: Type.COLUMN,
 
     width: 500,
+
+    xAxisLabels: [],
 
     xAxisTitle: null,
 
@@ -102,13 +106,13 @@ export default Ember.Component.extend({
 
     axisXHeight: Ember.computed(
         function() {
-            return 20;
+            return 25;
         }
     ),
 
     axisYWidth: Ember.computed(
         function() {
-            return 20;
+            return 42;
         }
     ),
 
@@ -165,7 +169,6 @@ export default Ember.Component.extend({
         'axisYWidth',
         'height',
         'width',
-        'ticksX',
         function() {
             const axisXHeight = this.get( 'axisXHeight' );
             const axisYWidth = this.get( 'axisYWidth' );
@@ -175,7 +178,6 @@ export default Ember.Component.extend({
                 offsetX: axisYWidth,
                 offsetY: this.get( 'height' ) - axisXHeight,
                 width: this.get( 'width' ) - axisYWidth,
-                ticks: this.get( 'ticksX' )
             };
         }
     ),
@@ -185,7 +187,6 @@ export default Ember.Component.extend({
         'axisYWidth',
         'height',
         'width',
-        'axisYSet',
         function() {
             const axisXHeight = this.get( 'axisXHeight' );
             const axisYWidth = this.get( 'axisYWidth' );
@@ -195,7 +196,6 @@ export default Ember.Component.extend({
                 offsetX: 0,
                 offsetY: 0,
                 width: axisYWidth,
-                ticks: this.get( 'axisYSet' ).length
             };
         }
     ),

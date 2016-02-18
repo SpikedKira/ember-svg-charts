@@ -3,6 +3,12 @@
     <path d='m {{tick.x}},{{offsetY}} L {{tick.x}} {{tick.y}}' shape-rendering="crispEdges" />
 {{/each}}
 
-{{#svg-chart-text x=titlePos.x y=titlePos.y}}
-    test
+{{#each labelPositions as |label|}}
+    {{#svg-chart-text class="label" x=label.x y=label.y}}
+        {{label.text}}
+    {{/svg-chart-text}}
+{{/each}}
+
+{{#svg-chart-text class="title" x=titlePos.x y=titlePos.y}}
+    {{title}}
 {{/svg-chart-text}}

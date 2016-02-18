@@ -29,11 +29,13 @@ export default Ember.Component.extend({
 
     height: 0,
 
+    labels: [],
+
     offsetX: 0,
 
     offsetY: 0,
 
-    tickCount: 0,
+    title: null,
 
     width: 0,
 
@@ -45,14 +47,42 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Methods
 
+    labelPositions: Ember.computed(
+        'height',
+        'labels',
+        'offsetX',
+        'offsetY',
+        'x2',
+        function() {
+            const height = this.get( 'height' );
+            const x = this.get( 'offsetX' );
+            const y = this.get( 'offsetY' );
+            const x2 = this.get( 'x2' );
+            const labels = this.get( 'labels' );
+            const heightChunk = height / ( labels.length - 1 ); // -1 to drop the 0
+
+            const labelPos = Ember.A();
+
+            labels.forEach( ( label, index ) => {
+                labelPos.push({
+                    x: x2 - 10 - 3, // far left - 10(ticks) - 3(padding)
+                    y: height - ( ( heightChunk * index ) + y ) + 3, // 5 for text height/2
+                    text: label
+                });
+            });
+
+            return labelPos;
+        }
+    ),
+
     ticks: Ember.computed(
         'height',
-        'tickCount',
+        'labels',
         'width',
         'offsetX',
         'offsetY',
         function() {
-            const tickCount = this.get( 'tickCount' ) - 1;
+            const tickCount = this.get( 'labels' ).length - 1;
             const height = this.get( 'height' );
             const width = this.get( 'width' );
             const x = this.get( 'offsetX' );

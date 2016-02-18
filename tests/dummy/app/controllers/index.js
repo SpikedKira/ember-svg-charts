@@ -33,6 +33,8 @@ export default Ember.Controller.extend({
             title: 'third set',
             data: [.30, .40, .30, .40, .10]
         }
-    ]
+    ],
+
+    xAxisLabels: [ 'first', 'second', 'third', 'fourth', 'fifth' ]
 
 });

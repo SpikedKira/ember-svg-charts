@@ -13,14 +13,16 @@
         width=axisY.width
         offsetX=axisY.offsetX
         offsetY=axisY.offsetY
-        tickCount=axisY.ticks
+        labels=axisYSet
+        title=yAxisTitle
     }}
     {{svg-chart-x-axis
         height=axisX.height
         width=axisX.width
         offsetX=axisX.offsetX
         offsetY=axisX.offsetY
-        tickCount=axisX.ticks
+        labels=xAxisLabels
+        title=xAxisTitle
     }}
 
     {{#each dataPoints as |dataPoint|}}

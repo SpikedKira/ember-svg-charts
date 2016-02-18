@@ -29,11 +29,15 @@ export default Ember.Component.extend({
 
     height: 0,
 
+    labels: [],
+
     offsetX: 0,
 
     offsetY: 0,
 
     tickCount: 0,
+
+    title: null,
 
     width: 0,
 
@@ -43,14 +47,40 @@ export default Ember.Component.extend({
     // -------------------------------------------------------------------------
     // Methods
 
-    ticks: Ember.computed(
-        'height',
-        'tickCount',
+    labelPositions: Ember.computed(
+        'labels',
         'width',
         'offsetX',
         'offsetY',
         function() {
-            const tickCount = this.get( 'tickCount' );
+            const width = this.get( 'width' );
+            const x = this.get( 'offsetX' );
+            const y = this.get( 'offsetY' );
+            const labels = this.get( 'labels' );
+            const widthChunk = width / labels.length;
+
+            const labelPos = Ember.A();
+
+            labels.forEach( ( label, index ) => {
+                labelPos.push({
+                    x: ( widthChunk * index ) + x + ( widthChunk / 2 ),
+                    y: y + 10,
+                    text: label
+                });
+            });
+
+            return labelPos;
+        }
+    ),
+
+    ticks: Ember.computed(
+        'height',
+        'labels',
+        'width',
+        'offsetX',
+        'offsetY',
+        function() {
+            const tickCount = this.get( 'labels' ).length;
             const height = this.get( 'height' );
             const width = this.get( 'width' );
             const x = this.get( 'offsetX' );
@@ -73,7 +103,7 @@ export default Ember.Component.extend({
         function() {
             return {
                 x: ( this.get( 'width' ) / 2 ) + this.get( 'offsetX' ),
-                y: this.get( 'offsetY' ) + 20
+                y: this.get( 'offsetY' ) + 25 // 10(ticks) + 10(title height) + 5(margin-top)
             };
         }
     ),
