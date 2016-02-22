@@ -70668,49 +70668,94 @@ define('ember-svg-charts/components/svg-chart', ['exports', 'ember', 'ember-svg-
             return dataLines;
         }),
 
-        pieSlices: Ember['default'].computed('chartDimensions', 'series', function () {
-            var pieSlices = Ember['default'].A();
-            var series = this.get('series').slice();
+        pieMasks: Ember['default'].computed('chartDimensions', 'datasetCount', function () {
+            var masks = Ember['default'].A();
             var chartDimensions = this.get('chartDimensions');
-            var radius = -5 + Math.min(chartDimensions.width, chartDimensions.height) / 4;
+            var datasetCount = this.get('datasetCount');
+            var radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
+            var eachRadius = radius / datasetCount;
+
+            for (var count = datasetCount; count > 0; count--) {
+                masks.push({
+                    x: chartDimensions.width / 2,
+                    y: chartDimensions.height / 2,
+                    maxRadius: eachRadius * count - 2,
+                    minRadius: eachRadius * (count - 1),
+                    id: "donutMask" + count
+                });
+            }
+
+            return masks;
+        }),
+
+        pies: Ember['default'].computed('chartDimensions', 'series', function () {
+            var _this4 = this;
+
+            var pies = Ember['default'].A();
+            var series = this.get('series');
+            var datasetCount = this.get('datasetCount');
+            var chartDimensions = this.get('chartDimensions');
+            var radius = Math.min(chartDimensions.width, chartDimensions.height) / 2;
+            var eachRadius = radius / datasetCount;
+
+            var _loop2 = function (count) {
+                var data = [];
+                series.forEach(function (series) {
+                    data.push(series.data[count] || series.data);
+                });
+                console.log('data: ', data);
+                pies.push({
+                    slices: _this4.pieSlices(data, eachRadius * (count + 1)),
+                    id: "donutMask" + (count + 1)
+                });
+            };
+
+            for (var count = datasetCount - 1; count >= 0; count--) {
+                _loop2(count);
+            }
+
+            return pies;
+        }),
+
+        pieSlices: function pieSlices(data, radius) {
+            var pieSlices = Ember['default'].A();
+            var series = data; //this.get( 'series' ).slice();
+            var chartDimensions = this.get('chartDimensions');
+            //const radius = Math.min( chartDimensions.width, chartDimensions.height ) / 2;
             var max = radius * 2 * Math.PI;
             var explodeDistance = 3;
             var total = 0;
 
-            series.sort(function (a, b) {
+            /*series.sort( ( a, b ) => {
                 return b.data > a.data;
-            });
+            });*/
 
             var piOver180 = Math.PI / 180;
 
             series.forEach(function (series) {
-                total += series.data;
+                total += series; //series.data;
             });
 
             var previous = 0;
             var previousAngle = 0;
             series.forEach(function (series) {
-                var sizeCalc = max * (series.data / total);
-                var angle = 360 * (series.data / total);
-                var translationAngle = previousAngle + angle / 2;
+                var sizeCalc = max * (series / total);
+                //const sizeCalc = max * ( series.data / total );
+                //const angle = 360 * ( series.data / total );
 
-                var alter = parseInt(translationAngle / 90) % 2 ? -1 : 1;
                 pieSlices.push({
                     x: chartDimensions.width / 2,
                     y: chartDimensions.height / 2,
                     radius: radius,
                     stroke: radius * 2,
                     dashArray: "" + sizeCalc + " " + max,
-                    dashOffset: previous * -1 /*,
-                                              translateX: ( explodeDistance * Math.sin( translationAngle * piOver180 ) ) * alter,
-                                              translateY: ( explodeDistance * Math.cos( translationAngle * piOver180 ) ) * alter
-                                              */ });
+                    dashOffset: previous * -1
+                });
                 previous += sizeCalc;
-                previousAngle += angle;
             });
 
             return pieSlices;
-        }),
+        },
 
         ticksX: Ember['default'].computed('series', function () {
             return this.get('series').map(function (item) {
@@ -70721,6 +70766,12 @@ define('ember-svg-charts/components/svg-chart', ['exports', 'ember', 'ember-svg-
         ticksY: Ember['default'].computed('axisYSet', function () {
             // subtract 1 for the 0 line
             return this.get('axisYSet').length - 1;
+        }),
+
+        datasetCount: Ember['default'].computed('series', function () {
+            return this.get('series').map(function (item) {
+                return item.data.length || 1;
+            }).sort().pop();
         })
 
     });
@@ -71680,6 +71731,54 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
   exports['default'] = Ember.HTMLBars.template((function() {
     var child0 = (function() {
       var child0 = (function() {
+        var child0 = (function() {
+          return {
+            meta: {
+              "revision": "Ember@1.13.7",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 8,
+                  "column": 20
+                },
+                "end": {
+                  "line": 10,
+                  "column": 20
+                }
+              },
+              "moduleName": "modules/ember-svg-charts/templates/components/svg-chart.hbs"
+            },
+            arity: 0,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("                        ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("circle");
+              dom.setAttribute(el1,"fill","black");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element7 = dom.childAt(fragment, [1]);
+              var morphs = new Array(3);
+              morphs[0] = dom.createAttrMorph(element7, 'r');
+              morphs[1] = dom.createAttrMorph(element7, 'cx');
+              morphs[2] = dom.createAttrMorph(element7, 'cy');
+              return morphs;
+            },
+            statements: [
+              ["attribute","r",["concat",[["get","mask.minRadius",["loc",[null,[9,37],[9,51]]]]]]],
+              ["attribute","cx",["concat",[["get","mask.x",["loc",[null,[9,61],[9,67]]]]]]],
+              ["attribute","cy",["concat",[["get","mask.y",["loc",[null,[9,77],[9,83]]]]]]]
+            ],
+            locals: [],
+            templates: []
+          };
+        }());
         return {
           meta: {
             "revision": "Ember@1.13.7",
@@ -71690,7 +71789,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
                 "column": 12
               },
               "end": {
-                "line": 14,
+                "line": 12,
                 "column": 12
               }
             },
@@ -71703,35 +71802,150 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
             var el0 = dom.createDocumentFragment();
             var el1 = dom.createTextNode("                ");
             dom.appendChild(el0, el1);
-            var el1 = dom.createElement("circle");
+            var el1 = dom.createElement("mask");
+            var el2 = dom.createTextNode("\n                    ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createElement("circle");
+            dom.setAttribute(el2,"fill","white");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("                ");
+            dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element5 = dom.childAt(fragment, [1]);
-            var morphs = new Array(7);
-            morphs[0] = dom.createAttrMorph(element5, 'cx');
-            morphs[1] = dom.createAttrMorph(element5, 'cy');
-            morphs[2] = dom.createAttrMorph(element5, 'r');
-            morphs[3] = dom.createAttrMorph(element5, 'stroke-width');
-            morphs[4] = dom.createAttrMorph(element5, 'transform');
-            morphs[5] = dom.createAttrMorph(element5, 'stroke-dasharray');
-            morphs[6] = dom.createAttrMorph(element5, 'stroke-dashoffset');
+            var element8 = dom.childAt(fragment, [1]);
+            var element9 = dom.childAt(element8, [1]);
+            var morphs = new Array(5);
+            morphs[0] = dom.createAttrMorph(element8, 'id');
+            morphs[1] = dom.createAttrMorph(element9, 'r');
+            morphs[2] = dom.createAttrMorph(element9, 'cx');
+            morphs[3] = dom.createAttrMorph(element9, 'cy');
+            morphs[4] = dom.createMorphAt(element8,3,3);
             return morphs;
           },
           statements: [
-            ["attribute","cx",["concat",[["get","slice.x",["loc",[null,[7,26],[7,33]]]]]]],
-            ["attribute","cy",["concat",[["get","slice.y",["loc",[null,[8,26],[8,33]]]]]]],
-            ["attribute","r",["concat",[["get","slice.radius",["loc",[null,[9,25],[9,37]]]]]]],
-            ["attribute","stroke-width",["concat",[["get","slice.stroke",["loc",[null,[10,36],[10,48]]]]]]],
-            ["attribute","transform",["concat",["rotate(-90 ",["get","slice.x",["loc",[null,[11,44],[11,51]]]]," ",["get","slice.y",["loc",[null,[11,56],[11,63]]]],")"]]],
-            ["attribute","stroke-dasharray",["concat",[["get","slice.dashArray",["loc",[null,[12,40],[12,55]]]]]]],
-            ["attribute","stroke-dashoffset",["concat",[["get","slice.dashOffset",["loc",[null,[13,41],[13,57]]]]]]]
+            ["attribute","id",["concat",[["get","mask.id",["loc",[null,[6,28],[6,35]]]]]]],
+            ["attribute","r",["concat",[["get","mask.maxRadius",["loc",[null,[7,33],[7,47]]]]]]],
+            ["attribute","cx",["concat",[["get","mask.x",["loc",[null,[7,57],[7,63]]]]]]],
+            ["attribute","cy",["concat",[["get","mask.y",["loc",[null,[7,73],[7,79]]]]]]],
+            ["block","if",[["get","mask.minRadius",["loc",[null,[8,26],[8,40]]]]],[],0,null,["loc",[null,[8,20],[10,27]]]]
           ],
-          locals: ["slice"],
-          templates: []
+          locals: ["mask"],
+          templates: [child0]
+        };
+      }());
+      var child1 = (function() {
+        var child0 = (function() {
+          return {
+            meta: {
+              "revision": "Ember@1.13.7",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 17,
+                  "column": 16
+                },
+                "end": {
+                  "line": 26,
+                  "column": 16
+                }
+              },
+              "moduleName": "modules/ember-svg-charts/templates/components/svg-chart.hbs"
+            },
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("                    ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("circle");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element5 = dom.childAt(fragment, [1]);
+              var morphs = new Array(7);
+              morphs[0] = dom.createAttrMorph(element5, 'cx');
+              morphs[1] = dom.createAttrMorph(element5, 'cy');
+              morphs[2] = dom.createAttrMorph(element5, 'r');
+              morphs[3] = dom.createAttrMorph(element5, 'stroke-width');
+              morphs[4] = dom.createAttrMorph(element5, 'transform');
+              morphs[5] = dom.createAttrMorph(element5, 'stroke-dasharray');
+              morphs[6] = dom.createAttrMorph(element5, 'stroke-dashoffset');
+              return morphs;
+            },
+            statements: [
+              ["attribute","cx",["concat",[["get","slice.x",["loc",[null,[19,30],[19,37]]]]]]],
+              ["attribute","cy",["concat",[["get","slice.y",["loc",[null,[20,30],[20,37]]]]]]],
+              ["attribute","r",["concat",[["get","slice.radius",["loc",[null,[21,29],[21,41]]]]]]],
+              ["attribute","stroke-width",["concat",[["get","slice.stroke",["loc",[null,[22,40],[22,52]]]]]]],
+              ["attribute","transform",["concat",["rotate(-90 ",["get","slice.x",["loc",[null,[23,48],[23,55]]]]," ",["get","slice.y",["loc",[null,[23,60],[23,67]]]],")"]]],
+              ["attribute","stroke-dasharray",["concat",[["get","slice.dashArray",["loc",[null,[24,44],[24,59]]]]]]],
+              ["attribute","stroke-dashoffset",["concat",[["get","slice.dashOffset",["loc",[null,[25,45],[25,61]]]]]]]
+            ],
+            locals: ["slice"],
+            templates: []
+          };
+        }());
+        return {
+          meta: {
+            "revision": "Ember@1.13.7",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 15,
+                "column": 8
+              },
+              "end": {
+                "line": 28,
+                "column": 8
+              }
+            },
+            "moduleName": "modules/ember-svg-charts/templates/components/svg-chart.hbs"
+          },
+          arity: 2,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("            ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("g");
+            dom.setAttribute(el1,"class","slices");
+            var el2 = dom.createTextNode("\n");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("            ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var element6 = dom.childAt(fragment, [1]);
+            var morphs = new Array(2);
+            morphs[0] = dom.createAttrMorph(element6, 'mask');
+            morphs[1] = dom.createMorphAt(element6,1,1);
+            return morphs;
+          },
+          statements: [
+            ["attribute","mask",["concat",["url(#",["get","pie.id",["loc",[null,[16,43],[16,49]]]],")"]]],
+            ["block","each",[["get","pie.slices",["loc",[null,[17,24],[17,34]]]]],[],0,null,["loc",[null,[17,16],[26,25]]]]
+          ],
+          locals: ["pie","index"],
+          templates: [child0]
         };
       }());
       return {
@@ -71744,7 +71958,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
               "column": 4
             },
             "end": {
-              "line": 17,
+              "line": 30,
               "column": 4
             }
           },
@@ -71757,8 +71971,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
           var el0 = dom.createDocumentFragment();
           var el1 = dom.createTextNode("\n        ");
           dom.appendChild(el0, el1);
-          var el1 = dom.createElement("g");
-          dom.setAttribute(el1,"class","slices");
+          var el1 = dom.createElement("defs");
           var el2 = dom.createTextNode("\n");
           dom.appendChild(el1, el2);
           var el2 = dom.createComment("");
@@ -71768,18 +71981,24 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n");
           dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
+          var morphs = new Array(2);
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]),1,1);
+          morphs[1] = dom.createMorphAt(fragment,3,3,contextualElement);
           return morphs;
         },
         statements: [
-          ["block","each",[["get","pieSlices",["loc",[null,[5,20],[5,29]]]]],[],0,null,["loc",[null,[5,12],[14,21]]]]
+          ["block","each",[["get","pieMasks",["loc",[null,[5,20],[5,28]]]]],[],0,null,["loc",[null,[5,12],[12,21]]]],
+          ["block","each",[["get","pies",["loc",[null,[15,16],[15,20]]]]],[],1,null,["loc",[null,[15,8],[28,17]]]]
         ],
         locals: [],
-        templates: [child0]
+        templates: [child0, child1]
       };
     }());
     var child1 = (function() {
@@ -71792,11 +72011,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 50,
+                    "line": 63,
                     "column": 24
                   },
                   "end": {
-                    "line": 57,
+                    "line": 70,
                     "column": 24
                   }
                 },
@@ -71821,7 +72040,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
                 return morphs;
               },
               statements: [
-                ["inline","svg-chart-rect",[],["height",["subexpr","@mut",[["get","bar.height",["loc",[null,[52,39],[52,49]]]]],[],[]],"offsetX",["subexpr","@mut",[["get","bar.offsetX",["loc",[null,[53,40],[53,51]]]]],[],[]],"offsetY",["subexpr","@mut",[["get","bar.offsetY",["loc",[null,[54,40],[54,51]]]]],[],[]],"width",["subexpr","@mut",[["get","bar.width",["loc",[null,[55,38],[55,47]]]]],[],[]]],["loc",[null,[51,28],[56,30]]]]
+                ["inline","svg-chart-rect",[],["height",["subexpr","@mut",[["get","bar.height",["loc",[null,[65,39],[65,49]]]]],[],[]],"offsetX",["subexpr","@mut",[["get","bar.offsetX",["loc",[null,[66,40],[66,51]]]]],[],[]],"offsetY",["subexpr","@mut",[["get","bar.offsetY",["loc",[null,[67,40],[67,51]]]]],[],[]],"width",["subexpr","@mut",[["get","bar.width",["loc",[null,[68,38],[68,47]]]]],[],[]]],["loc",[null,[64,28],[69,30]]]]
               ],
               locals: ["bar"],
               templates: []
@@ -71833,11 +72052,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 49,
+                  "line": 62,
                   "column": 20
                 },
                 "end": {
-                  "line": 58,
+                  "line": 71,
                   "column": 20
                 }
               },
@@ -71860,7 +72079,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
               return morphs;
             },
             statements: [
-              ["block","each",[["get","dataPoint.data",["loc",[null,[50,32],[50,46]]]]],[],0,null,["loc",[null,[50,24],[57,33]]]]
+              ["block","each",[["get","dataPoint.data",["loc",[null,[63,32],[63,46]]]]],[],0,null,["loc",[null,[63,24],[70,33]]]]
             ],
             locals: [],
             templates: [child0]
@@ -71874,11 +72093,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
                 "loc": {
                   "source": null,
                   "start": {
-                    "line": 61,
+                    "line": 74,
                     "column": 24
                   },
                   "end": {
-                    "line": 63,
+                    "line": 76,
                     "column": 24
                   }
                 },
@@ -71906,8 +72125,8 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
                 return morphs;
               },
               statements: [
-                ["attribute","cx",["concat",[["get","point.x",["loc",[null,[62,42],[62,49]]]]]]],
-                ["attribute","cy",["concat",[["get","point.y",["loc",[null,[62,59],[62,66]]]]]]]
+                ["attribute","cx",["concat",[["get","point.x",["loc",[null,[75,42],[75,49]]]]]]],
+                ["attribute","cy",["concat",[["get","point.y",["loc",[null,[75,59],[75,66]]]]]]]
               ],
               locals: ["point"],
               templates: []
@@ -71919,11 +72138,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 60,
+                  "line": 73,
                   "column": 20
                 },
                 "end": {
-                  "line": 64,
+                  "line": 77,
                   "column": 20
                 }
               },
@@ -71946,7 +72165,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
               return morphs;
             },
             statements: [
-              ["block","each",[["get","dataPoint.data",["loc",[null,[61,32],[61,46]]]]],[],0,null,["loc",[null,[61,24],[63,33]]]]
+              ["block","each",[["get","dataPoint.data",["loc",[null,[74,32],[74,46]]]]],[],0,null,["loc",[null,[74,24],[76,33]]]]
             ],
             locals: [],
             templates: [child0]
@@ -71958,11 +72177,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
             "loc": {
               "source": null,
               "start": {
-                "line": 45,
+                "line": 58,
                 "column": 8
               },
               "end": {
-                "line": 67,
+                "line": 80,
                 "column": 8
               }
             },
@@ -72017,12 +72236,12 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
             return morphs;
           },
           statements: [
-            ["attribute","x",["concat",[["get","dataPoint.x",["loc",[null,[47,45],[47,56]]]]]]],
-            ["attribute","y",["concat",[["get","dataPoint.y",["loc",[null,[47,65],[47,76]]]]]]],
-            ["attribute","height",["concat",[["get","dataPoint.height",["loc",[null,[47,90],[47,106]]]]]]],
-            ["attribute","width",["concat",[["get","dataPoint.width",["loc",[null,[47,119],[47,134]]]]]]],
-            ["block","if",[["get","isColumn",["loc",[null,[49,26],[49,34]]]]],[],0,null,["loc",[null,[49,20],[58,27]]]],
-            ["block","if",[["get","isLine",["loc",[null,[60,26],[60,32]]]]],[],1,null,["loc",[null,[60,20],[64,27]]]]
+            ["attribute","x",["concat",[["get","dataPoint.x",["loc",[null,[60,45],[60,56]]]]]]],
+            ["attribute","y",["concat",[["get","dataPoint.y",["loc",[null,[60,65],[60,76]]]]]]],
+            ["attribute","height",["concat",[["get","dataPoint.height",["loc",[null,[60,90],[60,106]]]]]]],
+            ["attribute","width",["concat",[["get","dataPoint.width",["loc",[null,[60,119],[60,134]]]]]]],
+            ["block","if",[["get","isColumn",["loc",[null,[62,26],[62,34]]]]],[],0,null,["loc",[null,[62,20],[71,27]]]],
+            ["block","if",[["get","isLine",["loc",[null,[73,26],[73,32]]]]],[],1,null,["loc",[null,[73,20],[77,27]]]]
           ],
           locals: ["dataPoint"],
           templates: [child0, child1]
@@ -72036,11 +72255,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
               "loc": {
                 "source": null,
                 "start": {
-                  "line": 71,
+                  "line": 84,
                   "column": 16
                 },
                 "end": {
-                  "line": 73,
+                  "line": 86,
                   "column": 16
                 }
               },
@@ -72066,7 +72285,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
               return morphs;
             },
             statements: [
-              ["attribute","points",["concat",[["get","pointString",["loc",[null,[72,40],[72,51]]]]]]]
+              ["attribute","points",["concat",[["get","pointString",["loc",[null,[85,40],[85,51]]]]]]]
             ],
             locals: ["pointString"],
             templates: []
@@ -72078,11 +72297,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
             "loc": {
               "source": null,
               "start": {
-                "line": 69,
+                "line": 82,
                 "column": 8
               },
               "end": {
-                "line": 75,
+                "line": 88,
                 "column": 8
               }
             },
@@ -72114,7 +72333,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
             return morphs;
           },
           statements: [
-            ["block","each",[["get","dataLines",["loc",[null,[71,24],[71,33]]]]],[],0,null,["loc",[null,[71,16],[73,25]]]]
+            ["block","each",[["get","dataLines",["loc",[null,[84,24],[84,33]]]]],[],0,null,["loc",[null,[84,16],[86,25]]]]
           ],
           locals: [],
           templates: [child0]
@@ -72126,11 +72345,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
           "loc": {
             "source": null,
             "start": {
-              "line": 17,
+              "line": 30,
               "column": 4
             },
             "end": {
-              "line": 77,
+              "line": 90,
               "column": 4
             }
           },
@@ -72175,11 +72394,11 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
           return morphs;
         },
         statements: [
-          ["inline","svg-chart-grid",[],["xTickCount",["subexpr","if",[["get","xAxisPlotlines",["loc",[null,[20,27],[20,41]]]],["get","ticksX",["loc",[null,[20,42],[20,48]]]]],[],["loc",[null,[20,23],[20,49]]]],"yTickCount",["subexpr","if",[["get","yAxisPlotlines",["loc",[null,[21,27],[21,41]]]],["get","ticksY",["loc",[null,[21,42],[21,48]]]]],[],["loc",[null,[21,23],[21,49]]]],"x",["subexpr","@mut",[["get","chartDimensions.x",["loc",[null,[22,14],[22,31]]]]],[],[]],"y",["subexpr","@mut",[["get","chartDimensions.y",["loc",[null,[23,14],[23,31]]]]],[],[]],"height",["subexpr","@mut",[["get","chartDimensions.height",["loc",[null,[24,19],[24,41]]]]],[],[]],"width",["subexpr","@mut",[["get","chartDimensions.width",["loc",[null,[25,18],[25,39]]]]],[],[]]],["loc",[null,[19,8],[26,10]]]],
-          ["inline","svg-chart-y-axis",[],["height",["subexpr","@mut",[["get","axisY.height",["loc",[null,[29,19],[29,31]]]]],[],[]],"width",["subexpr","@mut",[["get","axisY.width",["loc",[null,[30,18],[30,29]]]]],[],[]],"offsetX",["subexpr","@mut",[["get","axisY.offsetX",["loc",[null,[31,20],[31,33]]]]],[],[]],"offsetY",["subexpr","@mut",[["get","axisY.offsetY",["loc",[null,[32,20],[32,33]]]]],[],[]],"labels",["subexpr","@mut",[["get","axisYSet",["loc",[null,[33,19],[33,27]]]]],[],[]],"title",["subexpr","@mut",[["get","yAxisTitle",["loc",[null,[34,18],[34,28]]]]],[],[]]],["loc",[null,[28,8],[35,10]]]],
-          ["inline","svg-chart-x-axis",[],["height",["subexpr","@mut",[["get","axisX.height",["loc",[null,[37,19],[37,31]]]]],[],[]],"width",["subexpr","@mut",[["get","axisX.width",["loc",[null,[38,18],[38,29]]]]],[],[]],"offsetX",["subexpr","@mut",[["get","axisX.offsetX",["loc",[null,[39,20],[39,33]]]]],[],[]],"offsetY",["subexpr","@mut",[["get","axisX.offsetY",["loc",[null,[40,20],[40,33]]]]],[],[]],"labels",["subexpr","@mut",[["get","xAxisLabels",["loc",[null,[41,19],[41,30]]]]],[],[]],"title",["subexpr","@mut",[["get","xAxisTitle",["loc",[null,[42,18],[42,28]]]]],[],[]]],["loc",[null,[36,8],[43,10]]]],
-          ["block","each",[["get","dataPoints",["loc",[null,[45,16],[45,26]]]]],[],0,null,["loc",[null,[45,8],[67,17]]]],
-          ["block","if",[["get","isLine",["loc",[null,[69,14],[69,20]]]]],[],1,null,["loc",[null,[69,8],[75,15]]]]
+          ["inline","svg-chart-grid",[],["xTickCount",["subexpr","if",[["get","xAxisPlotlines",["loc",[null,[33,27],[33,41]]]],["get","ticksX",["loc",[null,[33,42],[33,48]]]]],[],["loc",[null,[33,23],[33,49]]]],"yTickCount",["subexpr","if",[["get","yAxisPlotlines",["loc",[null,[34,27],[34,41]]]],["get","ticksY",["loc",[null,[34,42],[34,48]]]]],[],["loc",[null,[34,23],[34,49]]]],"x",["subexpr","@mut",[["get","chartDimensions.x",["loc",[null,[35,14],[35,31]]]]],[],[]],"y",["subexpr","@mut",[["get","chartDimensions.y",["loc",[null,[36,14],[36,31]]]]],[],[]],"height",["subexpr","@mut",[["get","chartDimensions.height",["loc",[null,[37,19],[37,41]]]]],[],[]],"width",["subexpr","@mut",[["get","chartDimensions.width",["loc",[null,[38,18],[38,39]]]]],[],[]]],["loc",[null,[32,8],[39,10]]]],
+          ["inline","svg-chart-y-axis",[],["height",["subexpr","@mut",[["get","axisY.height",["loc",[null,[42,19],[42,31]]]]],[],[]],"width",["subexpr","@mut",[["get","axisY.width",["loc",[null,[43,18],[43,29]]]]],[],[]],"offsetX",["subexpr","@mut",[["get","axisY.offsetX",["loc",[null,[44,20],[44,33]]]]],[],[]],"offsetY",["subexpr","@mut",[["get","axisY.offsetY",["loc",[null,[45,20],[45,33]]]]],[],[]],"labels",["subexpr","@mut",[["get","axisYSet",["loc",[null,[46,19],[46,27]]]]],[],[]],"title",["subexpr","@mut",[["get","yAxisTitle",["loc",[null,[47,18],[47,28]]]]],[],[]]],["loc",[null,[41,8],[48,10]]]],
+          ["inline","svg-chart-x-axis",[],["height",["subexpr","@mut",[["get","axisX.height",["loc",[null,[50,19],[50,31]]]]],[],[]],"width",["subexpr","@mut",[["get","axisX.width",["loc",[null,[51,18],[51,29]]]]],[],[]],"offsetX",["subexpr","@mut",[["get","axisX.offsetX",["loc",[null,[52,20],[52,33]]]]],[],[]],"offsetY",["subexpr","@mut",[["get","axisX.offsetY",["loc",[null,[53,20],[53,33]]]]],[],[]],"labels",["subexpr","@mut",[["get","xAxisLabels",["loc",[null,[54,19],[54,30]]]]],[],[]],"title",["subexpr","@mut",[["get","xAxisTitle",["loc",[null,[55,18],[55,28]]]]],[],[]]],["loc",[null,[49,8],[56,10]]]],
+          ["block","each",[["get","dataPoints",["loc",[null,[58,16],[58,26]]]]],[],0,null,["loc",[null,[58,8],[80,17]]]],
+          ["block","if",[["get","isLine",["loc",[null,[82,14],[82,20]]]]],[],1,null,["loc",[null,[82,8],[88,15]]]]
         ],
         locals: [],
         templates: [child0, child1]
@@ -72195,7 +72414,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
             "column": 0
           },
           "end": {
-            "line": 79,
+            "line": 92,
             "column": 0
           }
         },
@@ -72223,7 +72442,7 @@ define('ember-svg-charts/templates/components/svg-chart', ['exports'], function 
         return morphs;
       },
       statements: [
-        ["block","if",[["get","isPie",["loc",[null,[2,10],[2,15]]]]],[],0,1,["loc",[null,[2,4],[77,11]]]]
+        ["block","if",[["get","isPie",["loc",[null,[2,10],[2,15]]]]],[],0,1,["loc",[null,[2,4],[90,11]]]]
       ],
       locals: [],
       templates: [child0, child1]

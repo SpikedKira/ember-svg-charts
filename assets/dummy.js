@@ -152,7 +152,7 @@ define('dummy/controllers/index', ['exports', 'ember'], function (exports, Ember
 
         chartType: 'column',
 
-        chartTypes: ['column', 'line'],
+        chartTypes: ['column', 'line', 'pie'],
 
         data: [{
             title: 'set one',
@@ -297,7 +297,7 @@ define('dummy/ember-svg-charts/tests/modules/ember-svg-charts/components/svg-cha
   QUnit.module('JSHint - modules/ember-svg-charts/components');
   QUnit.test('modules/ember-svg-charts/components/svg-chart.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart.js: line 144, col 28, A leading decimal point can be confused with a dot: \'.1\'.\nmodules/ember-svg-charts/components/svg-chart.js: line 250, col 33, Don\'t make functions within a loop.\nmodules/ember-svg-charts/components/svg-chart.js: line 332, col 23, \'alter\' is defined but never used.\nmodules/ember-svg-charts/components/svg-chart.js: line 312, col 19, \'explodeDistance\' is defined but never used.\nmodules/ember-svg-charts/components/svg-chart.js: line 319, col 19, \'piOver180\' is defined but never used.\n\n5 errors');
+    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart.js: line 144, col 28, A leading decimal point can be confused with a dot: \'.1\'.\nmodules/ember-svg-charts/components/svg-chart.js: line 250, col 33, Don\'t make functions within a loop.\nmodules/ember-svg-charts/components/svg-chart.js: line 340, col 33, Don\'t make functions within a loop.\nmodules/ember-svg-charts/components/svg-chart.js: line 360, col 19, \'explodeDistance\' is defined but never used.\nmodules/ember-svg-charts/components/svg-chart.js: line 367, col 19, \'piOver180\' is defined but never used.\nmodules/ember-svg-charts/components/svg-chart.js: line 374, col 17, \'previousAngle\' is defined but never used.\n\n6 errors');
   });
 
 });
@@ -535,6 +535,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
         dom.setAttribute(el1,"class","exampleColumn");
+        dom.setAttribute(el1,"id","multiExample");
         var el2 = dom.createTextNode("\n    Chart Type:\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("select");
@@ -662,7 +663,7 @@ define('dummy/tests/controllers/index.jshint', function () {
   QUnit.module('JSHint - controllers');
   QUnit.test('controllers/index.js should pass jshint', function(assert) { 
     assert.expect(1);
-    assert.ok(false, 'controllers/index.js should pass jshint.\ncontrollers/index.js: line 26, col 23, A leading decimal point can be confused with a dot: \'.30\'.\ncontrollers/index.js: line 26, col 28, A leading decimal point can be confused with a dot: \'.60\'.\ncontrollers/index.js: line 26, col 33, A leading decimal point can be confused with a dot: \'.40\'.\ncontrollers/index.js: line 26, col 38, A leading decimal point can be confused with a dot: \'.70\'.\ncontrollers/index.js: line 26, col 43, A leading decimal point can be confused with a dot: \'.10\'.\ncontrollers/index.js: line 30, col 23, A leading decimal point can be confused with a dot: \'.20\'.\ncontrollers/index.js: line 30, col 28, A leading decimal point can be confused with a dot: \'.50\'.\ncontrollers/index.js: line 30, col 33, A leading decimal point can be confused with a dot: \'.20\'.\ncontrollers/index.js: line 30, col 38, A leading decimal point can be confused with a dot: \'.50\'.\ncontrollers/index.js: line 30, col 43, A leading decimal point can be confused with a dot: \'.20\'.\ncontrollers/index.js: line 34, col 23, A leading decimal point can be confused with a dot: \'.30\'.\ncontrollers/index.js: line 34, col 28, A leading decimal point can be confused with a dot: \'.40\'.\ncontrollers/index.js: line 34, col 33, A leading decimal point can be confused with a dot: \'.30\'.\ncontrollers/index.js: line 34, col 38, A leading decimal point can be confused with a dot: \'.40\'.\ncontrollers/index.js: line 34, col 43, A leading decimal point can be confused with a dot: \'.10\'.\n\n15 errors'); 
+    assert.ok(false, 'controllers/index.js should pass jshint.\ncontrollers/index.js: line 27, col 23, A leading decimal point can be confused with a dot: \'.30\'.\ncontrollers/index.js: line 27, col 28, A leading decimal point can be confused with a dot: \'.60\'.\ncontrollers/index.js: line 27, col 33, A leading decimal point can be confused with a dot: \'.40\'.\ncontrollers/index.js: line 27, col 38, A leading decimal point can be confused with a dot: \'.70\'.\ncontrollers/index.js: line 27, col 43, A leading decimal point can be confused with a dot: \'.10\'.\ncontrollers/index.js: line 31, col 23, A leading decimal point can be confused with a dot: \'.20\'.\ncontrollers/index.js: line 31, col 28, A leading decimal point can be confused with a dot: \'.50\'.\ncontrollers/index.js: line 31, col 33, A leading decimal point can be confused with a dot: \'.20\'.\ncontrollers/index.js: line 31, col 38, A leading decimal point can be confused with a dot: \'.50\'.\ncontrollers/index.js: line 31, col 43, A leading decimal point can be confused with a dot: \'.20\'.\ncontrollers/index.js: line 35, col 23, A leading decimal point can be confused with a dot: \'.30\'.\ncontrollers/index.js: line 35, col 28, A leading decimal point can be confused with a dot: \'.40\'.\ncontrollers/index.js: line 35, col 33, A leading decimal point can be confused with a dot: \'.30\'.\ncontrollers/index.js: line 35, col 38, A leading decimal point can be confused with a dot: \'.40\'.\ncontrollers/index.js: line 35, col 43, A leading decimal point can be confused with a dot: \'.10\'.\n\n15 errors'); 
   });
 
 });

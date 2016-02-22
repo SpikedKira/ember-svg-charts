@@ -25,6 +25,10 @@ pre {
     margin-left: 410px;
 }
 
+#multiExample {
+    height: 400px;
+}
+
 #pieExample {
     height: 250px;
 }
