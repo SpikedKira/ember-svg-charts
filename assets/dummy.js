@@ -165,7 +165,21 @@ define('dummy/controllers/index', ['exports', 'ember'], function (exports, Ember
             data: [.30, .40, .30, .40, .10]
         }],
 
-        xAxisLabels: ['first', 'second', 'third', 'fourth', 'fifth']
+        xAxisLabels: ['first', 'second', 'third', 'fourth', 'fifth'],
+
+        pieData: [{
+            title: 'one',
+            data: 13
+        }, {
+            title: 'two',
+            data: 3.2
+        }, {
+            title: 'three',
+            data: 5.5
+        }, {
+            title: 'four',
+            data: 10
+        }]
 
     });
 
@@ -283,7 +297,7 @@ define('dummy/ember-svg-charts/tests/modules/ember-svg-charts/components/svg-cha
   QUnit.module('JSHint - modules/ember-svg-charts/components');
   QUnit.test('modules/ember-svg-charts/components/svg-chart.js should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart.js: line 136, col 28, A leading decimal point can be confused with a dot: \'.1\'.\nmodules/ember-svg-charts/components/svg-chart.js: line 242, col 33, Don\'t make functions within a loop.\n\n2 errors');
+    assert.ok(false, 'modules/ember-svg-charts/components/svg-chart.js should pass jshint.\nmodules/ember-svg-charts/components/svg-chart.js: line 144, col 28, A leading decimal point can be confused with a dot: \'.1\'.\nmodules/ember-svg-charts/components/svg-chart.js: line 250, col 33, Don\'t make functions within a loop.\nmodules/ember-svg-charts/components/svg-chart.js: line 332, col 23, \'alter\' is defined but never used.\nmodules/ember-svg-charts/components/svg-chart.js: line 312, col 19, \'explodeDistance\' is defined but never used.\nmodules/ember-svg-charts/components/svg-chart.js: line 319, col 19, \'piOver180\' is defined but never used.\n\n5 errors');
   });
 
 });
@@ -417,11 +431,11 @@ define('dummy/templates/index', ['exports'], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 37,
+              "line": 38,
               "column": 8
             },
             "end": {
-              "line": 41,
+              "line": 42,
               "column": 8
             }
           },
@@ -454,8 +468,8 @@ define('dummy/templates/index', ['exports'], function (exports) {
           return morphs;
         },
         statements: [
-          ["attribute","value",["concat",[["get","type",["loc",[null,[38,29],[38,33]]]]]]],
-          ["content","type",["loc",[null,[39,16],[39,24]]]]
+          ["attribute","value",["concat",[["get","type",["loc",[null,[39,29],[39,33]]]]]]],
+          ["content","type",["loc",[null,[40,16],[40,24]]]]
         ],
         locals: ["type"],
         templates: []
@@ -471,7 +485,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 54,
+            "line": 98,
             "column": 0
           }
         },
@@ -482,8 +496,14 @@ define('dummy/templates/index', ['exports'], function (exports) {
       hasRendered: false,
       buildFragment: function buildFragment(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h2");
+        var el2 = dom.createTextNode("Example 1");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"id","docColumn");
+        dom.setAttribute(el1,"class","docColumn");
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h5");
@@ -514,7 +534,7 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"id","exampleColumn");
+        dom.setAttribute(el1,"class","exampleColumn");
         var el2 = dom.createTextNode("\n    Chart Type:\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("select");
@@ -539,23 +559,84 @@ define('dummy/templates/index', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","cb");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("h2");
+        var el2 = dom.createTextNode("Example 2");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","docColumn");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h5");
+        var el3 = dom.createTextNode("Template");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("pre");
+        var el3 = dom.createTextNode("{{svg-chart\n    series=pieData\n    type=\"pie\"\n}}");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h5");
+        var el3 = dom.createTextNode("Controller");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("pre");
+        var el3 = dom.createTextNode("pieData: [\n    {\n        title: 'one',\n        data: 13\n    },\n    {\n        title: 'two',\n        data: 3.2\n    },\n    {\n        title: 'three',\n        data: 5.5\n    },\n    {\n        title: 'four',\n        data: 10\n    }\n]");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","exampleColumn");
+        dom.setAttribute(el1,"id","pieExample");
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1,"class","cb");
+        dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element1 = dom.childAt(fragment, [2]);
+        var element1 = dom.childAt(fragment, [4]);
         var element2 = dom.childAt(element1, [1]);
-        var morphs = new Array(3);
+        var morphs = new Array(4);
         morphs[0] = dom.createElementMorph(element2);
         morphs[1] = dom.createMorphAt(element2,1,1);
         morphs[2] = dom.createMorphAt(element1,6,6);
+        morphs[3] = dom.createMorphAt(dom.childAt(fragment, [12]),1,1);
         return morphs;
       },
       statements: [
-        ["element","action",["change"],["on","change"],["loc",[null,[36,29],[36,60]]]],
-        ["block","each",[["get","chartTypes",["loc",[null,[37,16],[37,26]]]]],["key","@index"],0,null,["loc",[null,[37,8],[41,17]]]],
-        ["inline","svg-chart",[],["series",["subexpr","@mut",[["get","data",["loc",[null,[47,15],[47,19]]]]],[],[]],"type",["subexpr","@mut",[["get","chartType",["loc",[null,[48,13],[48,22]]]]],[],[]],"xAxisLabels",["subexpr","@mut",[["get","xAxisLabels",["loc",[null,[49,20],[49,31]]]]],[],[]],"xAxisTitle","Demo Chart","yAxisTitle","Some Numbers"],["loc",[null,[46,4],[52,6]]]]
+        ["element","action",["change"],["on","change"],["loc",[null,[37,29],[37,60]]]],
+        ["block","each",[["get","chartTypes",["loc",[null,[38,16],[38,26]]]]],["key","@index"],0,null,["loc",[null,[38,8],[42,17]]]],
+        ["inline","svg-chart",[],["series",["subexpr","@mut",[["get","data",["loc",[null,[48,15],[48,19]]]]],[],[]],"type",["subexpr","@mut",[["get","chartType",["loc",[null,[49,13],[49,22]]]]],[],[]],"xAxisLabels",["subexpr","@mut",[["get","xAxisLabels",["loc",[null,[50,20],[50,31]]]]],[],[]],"xAxisTitle","Demo Chart","yAxisTitle","Some Numbers"],["loc",[null,[47,4],[53,6]]]],
+        ["inline","svg-chart",[],["series",["subexpr","@mut",[["get","pieData",["loc",[null,[91,15],[91,22]]]]],[],[]],"type","pie"],["loc",[null,[90,4],[93,6]]]]
       ],
       locals: [],
       templates: [child0]

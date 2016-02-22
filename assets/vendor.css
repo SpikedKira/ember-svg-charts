@@ -1,3 +1,7 @@
+div.chart {
+    height: 100%;
+}
+
 div.chart svg {
     height: 100%;
     width: 100%;
@@ -46,16 +50,16 @@ div.chart svg .dataPoint .hoverArea:hover + g rect {
 }
 
 div.chart svg .dataPoint g *:first-child {
-    fill: blue;
-    stroke: blue;
+    fill: #5C6BC0;
+    stroke: #5C6BC0;
 }
 div.chart svg .dataPoint g * + * {
-    fill: red;
-    stroke: red;
+    fill: #EF5350;
+    stroke: #EF5350;
 }
 div.chart svg .dataPoint g *:nth-child( 3 ) {
-    fill: green;
-    stroke: green;
+    fill: #26A69A;
+    stroke: #26A69A;
 }
 
 div.chart svg .dataLines > * {
@@ -65,11 +69,37 @@ div.chart svg .dataLines > *:hover {
     stroke-width: 3px;
 }
 div.chart svg .dataLines > *:first-child {
-    stroke: blue;
+    stroke: #5C6BC0;
 }
 div.chart svg .dataLines > * + * {
-    stroke: red;
+    stroke: #EF5350;
 }
 div.chart svg .dataLines > *:nth-child( 3 ) {
-    stroke: green;
+    stroke: #26A69A;
+}
+
+div.chart svg .slices > * {
+    fill: transparent;
+    opacity: .75;
+}
+div.chart svg .slices > *:hover {
+    opacity: 1;
+}
+div.chart svg .slices > *:first-child {
+    stroke: #5C6BC0;
+}
+div.chart svg .slices > * + * {
+    stroke: #EF5350;
+}
+div.chart svg .slices > *:nth-child( 3 ) {
+    stroke: #26A69A;
+}
+div.chart svg .slices > *:nth-child( 4 ) {
+    stroke: #66BB6A;
+}
+div.chart svg .slices > *:nth-child( 5 ) {
+    stroke: #FFEE58;
+}
+div.chart svg .slices > *:nth-child( 6 ) {
+    stroke: #FFA726;
 }

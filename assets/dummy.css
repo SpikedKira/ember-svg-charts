@@ -1,3 +1,7 @@
+body > div.ember-view:last-child {
+    margin-bottom: 100px;
+}
+
 h5 {
     margin: 10px 0;
 }
@@ -8,11 +12,19 @@ pre {
     background-color: #CCC;
 }
 
-#docColumn {
+.cb {
+    clear: both;
+}
+
+.docColumn {
     float: left;
     width: 400px;
 }
 
-#exampleColumn {
+.exampleColumn {
     margin-left: 410px;
+}
+
+#pieExample {
+    height: 250px;
 }
